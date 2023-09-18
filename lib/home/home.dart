@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
   double _moodValue = 3;
   double _waterIntakeValue = 3;
   String? _selectedDepartment = "None";
-  bool _selectedTry = false;
+  bool _selected = false;
 
   String _happinessText(double sliderValue) {
     return switch (sliderValue) {
@@ -95,25 +95,31 @@ class _HomePageState extends State<HomePage> {
   Widget _buildPage() {
     return ListView(
       children: <Widget>[
-        const Center(
-          child: Text(
-            "Welcome home.",
-            style: TextStyle(
-              color: Colors.grey, // Change text color
-              fontSize: 40.0, // Change font size
-              fontStyle: FontStyle.italic, // Apply italic style
-              fontFamily: 'Arial', // Change font family
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 3.0),
+          child: Center(
+            child: Text(
+              "Welcome home.",
+              style: TextStyle(
+                color: Color.fromARGB(255, 119, 117, 117), // Change text color
+                fontSize: 40.0, // Change font size
+                fontStyle: FontStyle.italic, // Apply italic style
+                fontFamily: 'Arial', // Change font family
+              ),
             ),
           ),
         ),
-        const Center(
-          child: FaIcon(
-            FontAwesomeIcons.handHoldingHeart,
-            color: Colors.blue,
+        Center(
+          child: Transform.scale(
+            scale: 0.8, // Adjust the scale factor to change the size
+            child: const FaIcon(
+              FontAwesomeIcons.handHoldingHeart,
+              color: Colors.blue,
+            ),
           ),
         ),
         const Divider(
-          color: Colors.grey, // Change the divider color
+          color: Color.fromARGB(255, 232, 228, 228), // Change the divider color
         ),
         const Center(
           child: Padding(
@@ -122,7 +128,7 @@ class _HomePageState extends State<HomePage> {
               "Let's begin with some questions.",
               style: TextStyle(
                 color: Colors.black, // Change text color
-                fontSize: 18.0, // Change font size
+                fontSize: 16.0, // Change font size
                 // fontWeight: FontWeight.bold, // Apply font weight
                 fontFamily: 'Arial', // Change font family
               ),
@@ -156,17 +162,24 @@ class _HomePageState extends State<HomePage> {
                   });
                 })),
         _buildQuestion(
-            "How much exercises did you do today?",
-            DropdownMenu(
-                dropdownMenuEntries: const [
-                  DropdownMenuEntry(value: "None", label: "None"),
-                  DropdownMenuEntry(value: "Little", label: "Little"),
-                  DropdownMenuEntry(value: "Some", label: "Some"),
-                  DropdownMenuEntry(value: "A lot", label: "A lot"),
-                ],
-                onSelected: (value) => setState(() {
-                      _selectedDepartment = value;
-                    }))),
+          "How much exercise did you do today?",
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 3.0),
+            child: Transform.scale(
+                scale: 0.9, // Adjust the scale factor to change the size
+                child: DropdownMenu(
+                    dropdownMenuEntries: const [
+                      DropdownMenuEntry(value: "None", label: "None"),
+                      DropdownMenuEntry(value: "Little", label: "Little"),
+                      DropdownMenuEntry(value: "Some", label: "Some"),
+                      DropdownMenuEntry(value: "A lot", label: "A lot"),
+                    ],
+                    initialSelection: _selectedDepartment,
+                    onSelected: (value) => setState(() {
+                          _selectedDepartment = value;
+                        }))),
+          ),
+        ),
         _buildQuestion(
           "How much water did you drink?(cups)",
           Row(
@@ -207,18 +220,37 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         _buildQuestion(
-            "Did you try something new today?",
-            Row(
+          "Did you do something new today?",
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14.0),
+            child: Row(
               children: [
-                Checkbox(
-                  value: _selectedTry,
-                  onChanged: (value) => setState(() {
-                    _selectedTry = value!;
-                  }),
+                Transform.scale(
+                  scale: 0.8, // Adjust the scale factor to change the size
+                  child: Checkbox(
+                    value: _selected,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    onChanged: (value) => setState(() {
+                      _selected = value!;
+                    }),
+                  ),
                 ),
-                const Text("Yes,I did something new."),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Text(
+                    "Yes,I did something new.",
+                    style: TextStyle(
+                      color: Colors.black, // Change text color
+                      fontSize: 14.0, // Change font size
+                      fontWeight: FontWeight.normal, // Apply font weight
+                      fontFamily: 'Arial', // Change font family
+                    ),
+                  ),
+                )
               ],
-            )),
+            ),
+          ),
+        ),
         _buildQuestion(
           "Personal notes",
           Padding(
@@ -233,7 +265,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   hintText: 'What would you like to say?',
                   contentPadding:
-                      const EdgeInsets.fromLTRB(12.0, 70.0, 12.0, 12.0),
+                      const EdgeInsets.fromLTRB(12.0, 40.0, 12.0, 12.0),
                 )),
           ),
         ),
