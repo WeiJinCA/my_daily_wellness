@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../profile/profile.dart';
 import '../summary/summary.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import '../services/info_state.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -65,23 +67,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  double _sleepValue = 3;
-  double _moodValue = 3;
-  double _waterIntakeValue = 3;
-  String? _selectedDepartment = "None";
-  bool _selected = false;
-
-  String _happinessText(double sliderValue) {
-    return switch (sliderValue) {
-      1 => "Horrible",
-      2 => "Bad",
-      3 => "Average",
-      4 => "Good",
-      5 => "Excellent",
-      _ => "I don't know",
-    };
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,6 +78,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildPage() {
+    var info = Provider.of<Info>(context, listen: true);
+
     return ListView(
       children: <Widget>[
         const Padding(
@@ -138,47 +125,42 @@ class _HomePageState extends State<HomePage> {
         _buildQuestion(
             "Did you sleep well last night?",
             Slider(
-                value: _sleepValue,
+                value: info.sleepValue,
                 min: 1,
                 max: 5,
                 divisions: 4,
-                label: _happinessText(_sleepValue),
+                label: info.happinessText(info.sleepValue),
                 onChanged: (value) {
-                  setState(() {
-                    _sleepValue = value;
-                  });
+                  info.setSleepValue(value);
                 })),
         _buildQuestion(
             "How was your mood today?",
             Slider(
-                value: _moodValue,
+                value: info.moodValue,
                 min: 1,
                 max: 5,
                 divisions: 4,
-                label: _happinessText(_moodValue),
+                label: info.happinessText(info.moodValue),
                 onChanged: (value) {
-                  setState(() {
-                    _moodValue = value;
-                  });
+                  info.setMoodValue(value);
                 })),
         _buildQuestion(
           "How much exercise did you do today?",
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 3.0),
-            child: Transform.scale(
-                scale: 0.9, // Adjust the scale factor to change the size
-                child: DropdownMenu(
-                    dropdownMenuEntries: const [
-                      DropdownMenuEntry(value: "None", label: "None"),
-                      DropdownMenuEntry(value: "Little", label: "Little"),
-                      DropdownMenuEntry(value: "Some", label: "Some"),
-                      DropdownMenuEntry(value: "A lot", label: "A lot"),
-                    ],
-                    initialSelection: _selectedDepartment,
-                    onSelected: (value) => setState(() {
-                          _selectedDepartment = value;
-                        }))),
-          ),
+              padding: const EdgeInsets.symmetric(horizontal: 3.0),
+              child: Transform.scale(
+                  scale: 0.9, // Adjust the scale factor to change the size
+                  child: DropdownMenu(
+                      dropdownMenuEntries: const [
+                        DropdownMenuEntry(value: "None", label: "None"),
+                        DropdownMenuEntry(value: "Little", label: "Little"),
+                        DropdownMenuEntry(value: "Some", label: "Some"),
+                        DropdownMenuEntry(value: "A lot", label: "A lot"),
+                      ],
+                      initialSelection: info.selectedExercise,
+                      onSelected: (value) {
+                        info.setsSlectedExercise(value);
+                      }))),
         ),
         _buildQuestion(
           "How much water did you drink?(cups)",
@@ -195,15 +177,15 @@ class _HomePageState extends State<HomePage> {
               ), // Left label
               Expanded(
                 child: Slider(
-                    value: _waterIntakeValue,
+                    value: info.waterIntakeValue,
                     min: 0,
                     max: 8,
-                    label: _waterIntakeValue.toInt().toString(),
+                    label: info.waterIntakeValue.toInt().toString(),
                     divisions: 8,
                     // thumbColor: null,
                     onChanged: (value) {
                       setState(() {
-                        _waterIntakeValue = value;
+                        info.waterIntakeValue = value;
                       });
                     }),
               ),
@@ -228,12 +210,11 @@ class _HomePageState extends State<HomePage> {
                 Transform.scale(
                   scale: 0.8, // Adjust the scale factor to change the size
                   child: Checkbox(
-                    value: _selected,
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    onChanged: (value) => setState(() {
-                      _selected = value!;
-                    }),
-                  ),
+                      value: info.selected,
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      onChanged: (value) {
+                        info.setSelected(value!);
+                      }),
                 ),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -256,17 +237,22 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: TextFormField(
-                maxLines: 4,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    // Add a border
-                    borderRadius: BorderRadius.circular(
-                        4.0), // Customize border radius as needed
-                  ),
-                  hintText: 'What would you like to say?',
-                  contentPadding:
-                      const EdgeInsets.fromLTRB(12.0, 40.0, 12.0, 12.0),
-                )),
+              controller: info.textInput,
+              maxLines: 4,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  // Add a border
+                  borderRadius: BorderRadius.circular(
+                      4.0), // Customize border radius as needed
+                ),
+                hintText: 'What would you like to say?',
+                contentPadding:
+                    const EdgeInsets.fromLTRB(12.0, 40.0, 12.0, 12.0),
+              ),
+              onChanged: (value) {
+                info.setTextInput(value);
+              },
+            ),
           ),
         ),
       ],
