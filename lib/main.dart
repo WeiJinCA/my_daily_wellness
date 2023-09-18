@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'home/home.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
-import './services/auth_service.dart';
-import './services/info_state.dart';
-import './services/login_page.dart';
+import './services/service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

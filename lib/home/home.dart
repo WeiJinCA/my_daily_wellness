@@ -9,18 +9,16 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  HomeScreenState createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
     const HomePage(),
     const SummaryScreen(),
     const ProfileScreen(),
-
-    // Add more pages as needed
   ];
 
   @override
@@ -59,14 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,7 +94,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         const Divider(
-          color: Color.fromARGB(255, 232, 228, 228), // Change the divider color
+          color: Color.fromARGB(255, 232, 228, 228),
         ),
         const Center(
           child: Padding(
@@ -109,10 +102,9 @@ class _HomePageState extends State<HomePage> {
             child: Text(
               "Let's begin with some questions.",
               style: TextStyle(
-                color: Colors.black, // Change text color
-                fontSize: 16.0, // Change font size
-                // fontWeight: FontWeight.bold, // Apply font weight
-                fontFamily: 'Arial', // Change font family
+                color: Colors.black,
+                fontSize: 16.0,
+                fontFamily: 'Arial',
               ),
             ),
           ),
@@ -179,9 +171,7 @@ class _HomePageState extends State<HomePage> {
                     divisions: 8,
                     // thumbColor: null,
                     onChanged: (value) {
-                      setState(() {
-                        info.waterIntakeValue = value;
-                      });
+                      info.setWaterIntakeValue(value);
                     }),
               ),
               const Text(

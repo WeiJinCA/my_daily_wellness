@@ -18,9 +18,7 @@ class ProfileScreen extends StatelessWidget {
         loginTime = userMetadata.creationTime!.toLocal();
       }
     }
-    //else {
-    //   loginTime = DateTime.now();
-    // }
+
     String time = loginTime.toString();
 
     return Scaffold(
