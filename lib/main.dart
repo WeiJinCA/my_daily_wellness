@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'home/home.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import './services/auth_service.dart';
 import './services/info_state.dart';
+import './services/login_page.dart';
 
-void main() async {
-  //await Firebase.initializeApp();
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +26,20 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const HomeScreen(),
+        home: FutureBuilder(
+          future: _auth.isUserSignedIn(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              bool isUserSignedIn = snapshot.data as bool;
+              return isUserSignedIn ? const HomeScreen() : LoginPage();
+            }
+            return const CircularProgressIndicator();
+          },
+        ),
+        routes: {
+          '/login': (context) => LoginPage(),
+          '/home': (context) => const HomeScreen(),
+        },
       ),
     );
   }

@@ -20,14 +20,14 @@ class Info extends ChangeNotifier {
   }
 
   String? selectedExercise = "None";
-  setsSlectedExercise(String? value) {
+  setSlectedExercise(String? value) {
     selectedExercise = value;
     notifyListeners();
   }
 
-  bool selected = false;
-  setSelected(bool value) {
-    selected = value;
+  bool isChecked = false;
+  setIsSelected(bool value) {
+    isChecked = value;
     notifyListeners();
   }
 
@@ -63,5 +63,14 @@ class Info extends ChangeNotifier {
   setTextInput(String value) {
     textInput.text = value;
     notifyListeners();
+  }
+
+  resetInfo() {
+    sleepValue = 3;
+    moodValue = 3;
+    waterIntakeValue = 3;
+    selectedExercise = "None";
+    isChecked = false;
+    textInput.text = "";
   }
 }

@@ -28,7 +28,7 @@ class SummaryScreen extends StatelessWidget {
             'You drank ${info.waterIntakeValue} cups of water.',
           ),
           _buildSummaryLine(
-            "You ${info.selectedText(info.selected)} something new.",
+            "You ${info.selectedText(info.isChecked)} something new.",
           ),
           _buildSummaryLine(
             'You noted down: ${info.textInput.text}',

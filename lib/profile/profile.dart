@@ -1,10 +1,28 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../services/info_state.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var info = Provider.of<Info>(context, listen: true);
+    DateTime? loginTime;
+
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null && user.isAnonymous) {
+      final userMetadata = FirebaseAuth.instance.currentUser?.metadata;
+      if (userMetadata != null) {
+        loginTime = userMetadata.creationTime!.toLocal();
+      }
+    }
+    //else {
+    //   loginTime = DateTime.now();
+    // }
+    String time = loginTime.toString();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Profile'),
@@ -20,7 +38,7 @@ class ProfileScreen extends StatelessWidget {
                 radius: 90,
                 backgroundColor: Colors.white, // Adjust the size as needed
                 backgroundImage: AssetImage(
-                    'assets/user.png'), // Replace with your image asset
+                    'assets/girl.png'), // Replace with your image asset
               ),
               const SizedBox(height: 20), // Add some spacing
 
@@ -29,16 +47,19 @@ class ProfileScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 18),
               ),
               // Display the signup date
-              const Text(
-                'Signed up on: September 16, 2023', // Replace with the actual signup date
-                style: TextStyle(fontSize: 18),
+              Text(
+                'Signed up on: $time', // Replace with the actual signup date
+                style: const TextStyle(fontSize: 18),
               ),
               const SizedBox(height: 40), // Add more spacing
 
               // Sign-out button
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   // Implement sign-out logic here
+                  await FirebaseAuth.instance.signOut();
+                  info.resetInfo();
+                  // ignore: use_build_context_synchronously
                   Navigator.of(context).pushReplacementNamed(
                       '/login'); // Navigate to the login page
                 },

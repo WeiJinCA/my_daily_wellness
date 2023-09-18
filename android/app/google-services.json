@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "877955024343",
+    "project_id": "my-daily-wellness",
+    "storage_bucket": "my-daily-wellness.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:877955024343:android:0abe864f2ca488398ab792",
+        "android_client_info": {
+          "package_name": "com.example.my_daily_wellness"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQJirO2nL8WMGuUjrvT6O-evv6sx9h-yA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -73,36 +73,31 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('My Daily Wellness'),
       ),
-      body: _buildPage(),
+      body: _buildPage(context),
     );
   }
 
-  Widget _buildPage() {
+  Widget _buildPage(BuildContext context) {
     var info = Provider.of<Info>(context, listen: true);
 
     return ListView(
       children: <Widget>[
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 3.0),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 3.0),
           child: Center(
             child: Text(
               "Welcome home.",
-              style: TextStyle(
-                color: Color.fromARGB(255, 119, 117, 117), // Change text color
-                fontSize: 40.0, // Change font size
-                fontStyle: FontStyle.italic, // Apply italic style
-                fontFamily: 'Arial', // Change font family
-              ),
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineLarge
+                  ?.copyWith(fontStyle: FontStyle.italic),
             ),
           ),
         ),
-        Center(
-          child: Transform.scale(
-            scale: 0.8, // Adjust the scale factor to change the size
-            child: const FaIcon(
-              FontAwesomeIcons.handHoldingHeart,
-              color: Colors.blue,
-            ),
+        const Center(
+          child: FaIcon(
+            FontAwesomeIcons.handHoldingHeart,
+            color: Colors.blue,
           ),
         ),
         const Divider(
@@ -159,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                       ],
                       initialSelection: info.selectedExercise,
                       onSelected: (value) {
-                        info.setsSlectedExercise(value);
+                        info.setSlectedExercise(value);
                       }))),
         ),
         _buildQuestion(
@@ -210,10 +205,10 @@ class _HomePageState extends State<HomePage> {
                 Transform.scale(
                   scale: 0.8, // Adjust the scale factor to change the size
                   child: Checkbox(
-                      value: info.selected,
+                      value: info.isChecked,
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       onChanged: (value) {
-                        info.setSelected(value!);
+                        info.setIsSelected(value!);
                       }),
                 ),
                 const Padding(
