@@ -36,7 +36,7 @@ class ProfileScreen extends StatelessWidget {
                 radius: 90,
                 backgroundColor: Colors.white, // Adjust the size as needed
                 backgroundImage: AssetImage(
-                    'assets/user.png'), // Replace with your image asset
+                    'assets/girl.png'), // Replace with your image asset
               ),
               const SizedBox(height: 20), // Add some spacing
 

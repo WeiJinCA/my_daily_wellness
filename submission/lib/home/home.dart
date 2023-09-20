@@ -94,7 +94,7 @@ class HomePage extends StatelessWidget {
           ),
         ),
         const Divider(
-          color: Color.fromARGB(255, 201, 198, 198),
+          color: Color.fromARGB(255, 232, 228, 228),
         ),
         const Center(
           child: Padding(
@@ -105,7 +105,6 @@ class HomePage extends StatelessWidget {
                 color: Colors.black,
                 fontSize: 16.0,
                 fontFamily: 'Arial',
-                height: 0.9,
               ),
             ),
           ),
@@ -247,15 +246,7 @@ class HomePage extends StatelessWidget {
 
   Widget _buildQuestion(String text, Widget inputWidget) {
     return ListTile(
-      title: Text(
-        text,
-        style: const TextStyle(
-          // color: Colors.black,
-          // fontSize: 16.0,
-          // fontFamily: 'Arial',
-          height: 0.9,
-        ),
-      ),
+      title: Text(text),
       subtitle: inputWidget,
     );
   }
